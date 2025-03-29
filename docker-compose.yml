@@ -10,6 +10,7 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./dcelery:/usr/src/app/
+      - ./dcelery/entrypoint.sh:/usr/src/app/entrypoint.sh
     ports:
       - 8001:8000
     environment:
@@ -23,8 +24,10 @@ services:
     container_name: celery
     build:
       context: ./dcelery
+    command: celery --app=dcelery worker -l INFO
     volumes:
       - ./dcelery:/usr/src/app/
+      - ./dcelery/entrypoint.sh:/usr/src/app/entrypoint.sh
     environment:
       - DEBUG=1
       - SECRET_KEY=0930jd30j9jd09j09j109fj01j9f

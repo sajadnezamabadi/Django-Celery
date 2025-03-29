@@ -1,6 +1,6 @@
 #!/bin/ash
 
-echo "Apply databse migrations"
+echo "Apply database migrations"
 
 python manage.py migrate
 
