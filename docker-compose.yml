@@ -20,11 +20,11 @@ services:
     depends_on:
       - redis
   
-  celery:
-    container_name: celery
+  celery1:
+    container_name: celery1
     build:
       context: ./dcelery
-    command: celery --app=dcelery worker -l INFO
+    command: celery --app=dcelery worker -l INFO -Q celery,celery:1,celery:2,celery:3
     volumes:
       - ./dcelery:/usr/src/app/
       - ./dcelery/entrypoint.sh:/usr/src/app/entrypoint.sh
@@ -35,3 +35,14 @@ services:
     depends_on:
       - redis
     
+  # celery2:
+  #   container_name: celery2
+  #   build:
+  #     context: ./conf
+  #     dockerfile: Dockerfile
+  #   command: celery --app=celerytask worker -l INFO -Q queue2
+  #   volumes:
+  #     - ./conf:/usr/src/app/
+  #   depends_on:
+  #     - redis
+  #     - django
