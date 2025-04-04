@@ -1,5 +1,14 @@
 services:
 
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=quest
+      - RABBITMQ_DEFAULT_PASS=quest
   redis:
     image: redis:7.0.11-alpine
 
@@ -20,11 +29,11 @@ services:
     depends_on:
       - redis
   
-  celery1:
+  celery:
     container_name: celery1
     build:
       context: ./dcelery
-    command: celery --app=dcelery worker -l INFO -Q celery,celery:1,celery:2,celery:3
+    command: celery --app=dcelery worker -l INFO -Q tasks
     volumes:
       - ./dcelery:/usr/src/app/
       - ./dcelery/entrypoint.sh:/usr/src/app/entrypoint.sh
@@ -34,6 +43,8 @@ services:
       - ALLOWED_HOSTS=localhost,127.0.0.1
     depends_on:
       - redis
+      - django
+      - rabbitmq
     
   # celery2:
   #   container_name: celery2
