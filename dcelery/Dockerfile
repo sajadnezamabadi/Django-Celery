@@ -12,7 +12,5 @@ RUN pip install -r requirements.txt
 COPY . /usr/src/app/
 COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
 RUN chmod +x /usr/src/app/entrypoint.sh
-RUN apk add dos2unix
-RUN dos2unix entrypoint.sh
 
 ENTRYPOINT [ "/usr/src/app/entrypoint.sh" ]

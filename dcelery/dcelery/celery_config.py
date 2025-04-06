@@ -17,22 +17,22 @@ app.conf.task_default_priority = 5
 app.conf.worker_prefetch_multiplier = 1
 app.conf.worker_concurrency = 1
 
-@app.task(queue="tasks")
-def t1():
-    sleep(1)
-    return
+base_dir = os.getcwd()
+task_folder = os.path.join(base_dir , "dcelery" , "celery_tasks")
 
-@app.task(queue="tasks")
-def t2():
-    sleep(1)
-    return
-
-@app.task(queue="tasks")
-def t3():
-    sleep(1)
-    return
-
-app.autodiscover_tasks()
+if os.path.exists(task_folder) and os.path.isdir(task_folder) :
+    task_modules = []
+    for filename in os.listdir(task_folder):
+        if filename.startswith("ex") and  filename.endswith(",.py"):
+            module_name = f"dcelery.celery_tasks.{filename[:-3]}" 
+            module = __import__(module_name , fromlist=["*"])
+            
+            for name in dir(module):
+                obj = getattr(module , name)
+                if callable(obj):
+                    task_modules.append(f"{module_name}.{name}")
+            
+app.autodiscover_tasks(task_modules)
 
 
 # app.conf.task_default_rate_limit = "1/m" #limit execute tasks
