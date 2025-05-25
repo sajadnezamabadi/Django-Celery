@@ -23,7 +23,7 @@ task_folder = os.path.join(base_dir , "dcelery" , "celery_tasks")
 if os.path.exists(task_folder) and os.path.isdir(task_folder) :
     task_modules = []
     for filename in os.listdir(task_folder):
-        if filename.startswith("ex") and  filename.endswith(",.py"):
+        if filename.startswith("ex") and  filename.endswith(".py"):
             module_name = f"dcelery.celery_tasks.{filename[:-3]}" 
             module = __import__(module_name , fromlist=["*"])
             
