@@ -21,7 +21,7 @@ services:
       - ./dcelery:/usr/src/app/
       - ./dcelery/entrypoint.sh:/usr/src/app/entrypoint.sh
     ports:
-      - 8001:8000
+      - 8004:8000
     environment:
       - DEBUG=1
       - SECRET_KEY=z4&mzpl^5h0rm#57^@sn=16c#nur
