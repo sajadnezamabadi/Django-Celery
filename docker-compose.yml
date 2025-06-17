@@ -33,7 +33,7 @@ services:
     container_name: celery1
     build:
       context: ./dcelery
-    command: celery --app=dcelery worker -l INFO -Q tasks
+    command: celery --app=dcelery worker -l INFO -Q tasks,dead_letter
     volumes:
       - ./dcelery:/usr/src/app/
       - ./dcelery/entrypoint.sh:/usr/src/app/entrypoint.sh
